@@ -18,8 +18,8 @@ class _DamageCalculatorState extends State<DamageCalculator> {
   final List<String> condList = <String>["N/A","A","B","C","D"];
 
   Map<String, double> statMap = {
-    "HP":0,"ATK":0,"DEF":0,"EM":0,"CR":0, "CD":0,"DMG":0,"LVL":0,"RES":0,
-    "DMG% A":0,"DMG% B":0,"DMG% C":0,"DMG% D":0,
+    "HP":0,"ATK":0,"DEF":0,"EM":0,"CR%":0, "CD%":0,"DMG%":0,"LVL":0,"RES% (Enemy)":0,
+    "DMG% A":0,"DMG% B":0,"DMG% C":0,"DMG% D":0,"N/A":0,
   };
 
   String chosenReaction = "Vape/Melt (1.5x)";
@@ -31,8 +31,133 @@ class _DamageCalculatorState extends State<DamageCalculator> {
 
   int rowCount = 0;
 
+  double noCritsTotal = 0;
+  double allCritsTotal = 0;
+  double averageTotal = 0;
+  double reactionTotal = 0;
+  String output = "";
+
+  //Data from the game for certain calculations. 90 values in total
+  List<double> lvlMulti = [17.17,18.54,19.90,21.27,22.65,24.65,26.64,28.87,31.37,34.14,37.20,40.66,44.45,48.56,
+    53.75,59.08,64.42,69.72,75.12,80.58,86.11,91.70,97.24,102.81,108.41,113.20,118.10,122.98,129.73,136.29,142.67,
+    149.03,155.42,161.83,169.11,176.52,184.07,191.71,199.56,207.38,215.40,224.17,233.50,243.35,256.06,268.54,
+    281.53,295.01,309.07,323.60,336.76,350.53,364.48,378.62,398.60,416.40,434.39,452.95,472.61,492.88,513.57,
+    539.10,565.51,592.54,624.44,651.47,679.50,707.79,736.67,765.64,794.77,824.68,851.16,877.74,914.23,946.75,
+    979.41,1011.22,1044.79,1077.44,1110.00,1142.98,1176.37,1210.18,1253.84,1288.95,1325.48,1363.46,1405.10,1446.85];
+
+  //Calculates all output for a given row, rowNum, in "Multiplier Input"
+  String calculateRow(int rowNum){
+    double multiplier = multList[rowNum]*0.01;
+    double hitcount = hitList[rowNum].toDouble();
+    double reactionCount = reactCountList[rowNum].toDouble();
+    double statAmount = statMap[chosenStatList[rowNum]]!;
+    double condAmount = 0;
+    if (chosenCondList[rowNum] == ("N/A")) {
+      condAmount = statMap[chosenCondList[rowNum]]!;
+    }
+    else {
+      condAmount = statMap["DMG% ${chosenCondList[rowNum]}"]!;
+    }
+
+    double noCrits = 0;
+
+    //This switch-case should probably go in its own function but I don't want to make it
+    double em = statMap["EM"]!;
+    switch (chosenReaction){
+      case ("Vape/Melt (1.5x)"):
+            double withoutReacts = multiplier*statAmount*hitcount*((statMap["DMG%"]!+condAmount)*0.01+1);
+            double reactsOnly = multiplier*statAmount*reactionCount*((statMap["DMG%"]!+condAmount)*0.01+1)
+                          *0.5*(1+(2.78*(em/(em+1400))));
+            noCrits = withoutReacts+reactsOnly;
+            reactionTotal += reactsOnly;
+            break;
+      case ("Vape/Melt (2x)"):
+            double withoutReacts = multiplier*statAmount*hitcount*((statMap["DMG%"]!+condAmount)*0.01+1);
+            double reactsOnly = multiplier*statAmount*reactionCount*((statMap["DMG%"]!+condAmount)*0.01+1)
+                          *1*(1+(2.78*(em/(em+1400))));
+            noCrits = withoutReacts+reactsOnly;
+            reactionTotal += reactsOnly;
+            break;
+      case ("Aggravate"):
+            noCrits = multiplier*statAmount*hitcount;
+            double reactsOnly = 1.15*lvlMulti[statMap["Level"]!.toInt()-1]*(1+(5*em)/(1200+em))*reactionCount;
+            noCrits = (noCrits+reactsOnly)*((statMap["DMG%"]!+condAmount)*0.01+1);
+            reactionTotal += reactsOnly*((statMap["DMG%"]!+condAmount)*0.01+1);
+            break;
+      case("Spread"):
+            noCrits = multiplier*statAmount*hitcount;
+            double reactsOnly = 1.25*lvlMulti[statMap["Level"]!.toInt()-1]*(1+(5*em)/(1200+em))*reactionCount;
+            noCrits = (noCrits+reactsOnly)*((statMap["DMG%"]!+condAmount)*0.01+1);
+            reactionTotal += reactsOnly*((statMap["DMG%"]!+condAmount)*0.01+1);
+            break;
+      default:
+            break;
+    }
+
+    double resMulti = 1;
+    if (0 <= statMap["RES% (Enemy)"]! && statMap["RES% (Enemy)"]!<75) {
+        resMulti = 1-statMap["RES% (Enemy)"]!*0.01;
+    }
+    else if (statMap["RES% (Enemy)"]! < 0) {
+        resMulti = 1-(statMap["RES% (Enemy)"]!/2)*0.01;
+    }
+    else {
+      resMulti = 1/(4*statMap["RES% (Enemy)"]!*0.01+1);
+    }
+
+    noCrits *= resMulti;
+    double allCrits = noCrits*(statMap["CD%"]!*0.01+1);
+    double average = noCrits*(statMap["CR%"]!*0.01*statMap["CD%"]!*0.01+1);
+    noCritsTotal += noCrits;
+    allCritsTotal += allCrits;
+    averageTotal += average;
+
+    String result = "     NO CRITS: ${noCrits.toStringAsFixed(1)}"
+        "     ALL CRITS: ${allCrits.toStringAsFixed(1)}"
+        "     AVERAGE: ${average.toStringAsFixed(1)}";
+
+    print(result);
+    print("condAmt: " + condAmount.toString());
+
+    return result;
+  }
+
+
+
+  String getOutput()
+  {
+    String result = "";
+    if (rowCount < 0)
+    {
+        return "";
+    }
+
+    for (int i=0; i<=rowCount; i++)
+    {
+        result += "Row ${i+1} | ${calculateRow(i)}\n";
+    }
+
+    result += "\nTOTALS |     NO CRITS: ${noCritsTotal.toStringAsFixed(1)}"
+        "     ALL CRITS: ${allCritsTotal.toStringAsFixed(1)}"
+        "     AVERAGE: ${averageTotal.toStringAsFixed(1)}"
+        "\n\nDAMAGE GAINED FROM REACTIONS"
+        "\n             NO CRITS: ${reactionTotal.toStringAsFixed(1)}"
+        "     ALL CRITS: ${((statMap["CD%"]!*0.01+1)*reactionTotal).toStringAsFixed(1)}"
+        "     AVERAGE: ${((statMap["CR%"]!*0.01*statMap["CD%"]!*0.01+1)*reactionTotal).toStringAsFixed(1)}"
+        "\n             PERCENTAGE: ${(100*reactionTotal/noCritsTotal).toStringAsFixed(2)}%"
+        " of damage is from reactions";
+
+    noCritsTotal = 0;
+    allCritsTotal = 0;
+    averageTotal = 0;
+    reactionTotal = 0;
+
+    return result;
+  }
+
+
   Row giveRow(int rowNum){
-    if (multList.length<rowNum)
+    if (multList.length<=rowNum)
     {
       multList.add(0);
       hitList.add(0);
@@ -59,9 +184,8 @@ class _DamageCalculatorState extends State<DamageCalculator> {
                   border: UnderlineInputBorder(),
                   labelText: "Multiplier%",
                 ) ,
-                onSubmitted: (value) {
+                onChanged: (value) {
                   multList[rowNum] = double.parse(value);
-                  print("Value at position " + rowNum.toString() + ": " + multList[rowNum].toString());
                 }
             )
           ),
@@ -79,13 +203,8 @@ class _DamageCalculatorState extends State<DamageCalculator> {
                     border: UnderlineInputBorder(),
                     labelText: "Hits",
                   ) ,
-                  onSubmitted: (value) {
+                  onChanged: (value) {
                     hitList[rowNum] = int.parse(value);
-                    for (int i=0; i<multList.length;i++)
-                      {
-                        print("Length of list: " + multList.length.toString());
-                        print(multList[i]);
-                      }
                   }
               )
           ),
@@ -103,7 +222,7 @@ class _DamageCalculatorState extends State<DamageCalculator> {
                     border: UnderlineInputBorder(),
                     labelText: "Reactions",
                   ) ,
-                  onSubmitted: (value) {
+                  onChanged: (value) {
                     reactCountList[rowNum] = int.parse(value);
                   }
               )
@@ -215,10 +334,8 @@ class _DamageCalculatorState extends State<DamageCalculator> {
           labelText: statType,
         ) ,
         //Input stuff
-        onSubmitted: (value) {
+        onChanged: (value) {
           statMap[statType] = double.parse(value);
-          print(statType);
-          print(statMap[statType]);
         }
 
       )
@@ -290,10 +407,21 @@ class _DamageCalculatorState extends State<DamageCalculator> {
                         )
                       ),
 
+                      //Text
+                      Container(
+                        //height: 30.h,
+                        margin: EdgeInsets.only(left: 10.w, bottom: 1.h),
+                        child: Text("*\"Reactions\" is the number of hits that cause a reaction. This should always be set "
+                            "smaller than \"Hits\".",
+                          style: TextStyle(fontSize: 12.h),),
+                      ),
+
+                      //Rows for multiplier input
                       Column(
                         children: rows,
                       ),
 
+                      //+ Button
                       Container(
                         //color: Colors.red,
                         margin: EdgeInsets.only(left:MediaQuery.of(context).size.width*0.70),
@@ -306,15 +434,11 @@ class _DamageCalculatorState extends State<DamageCalculator> {
                         },
                           elevation: 2.0,
                           fillColor: Colors.white,
-                          padding: EdgeInsets.all(10.0.h),
+                          padding: EdgeInsets.all(5.0.h),
                           shape: const CircleBorder(),
-                          child: Icon(
-                            Icons.add,
-                            size: 25.0.h,
-                          ),
+                          child: Text("+", style: TextStyle(fontSize: 24.h)),
                         )
                       ),
-
 
                     ]
                   )
@@ -378,7 +502,7 @@ class _DamageCalculatorState extends State<DamageCalculator> {
                         Container(),
                         statField("DMG%", Colors.transparent),
                         statField("Level", Colors.transparent),
-                        statField("RES", Colors.transparent),
+                        statField("RES% (Enemy)", Colors.transparent),
                         //Row 4
                         Container(),
                         Container(),
@@ -392,8 +516,46 @@ class _DamageCalculatorState extends State<DamageCalculator> {
 
             Container(
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height*0.875/4,
+              height: MediaQuery.of(context).size.height,
+              alignment: Alignment.topLeft,
               decoration: menuBox(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+
+                  Container(
+                    margin: EdgeInsets.only(left: 10.w, top: 10.h, bottom: 5.h),
+                    child: Text("Output", style: TextStyle(fontSize: 20.h),),
+                  ),
+
+                  Text("*Enemy defense is not included (yet).\n"
+                      "*\"NaN\" output means there is invalid input.",
+                      style: TextStyle(fontSize: 12.h)),
+
+                  Container(
+                    color: Colors.grey[400],
+                    child: Text(output, style: TextStyle(fontSize: 12.h)),
+                  ),
+
+                  Container(
+                    //color: Colors.red,
+                      margin: EdgeInsets.only(left:MediaQuery.of(context).size.width*0.70),
+                      child: RawMaterialButton(
+                        onPressed: () {
+                          print("wow");
+                          setState((){
+                            output = getOutput();
+                          });
+                        },
+                        elevation: 2.0,
+                        fillColor: Colors.white,
+                        padding: EdgeInsets.all(10.0.h),
+                        shape: const CircleBorder(),
+                        child: Text("Go", style: TextStyle(fontSize: 14.h)),
+                      )
+                  ),
+                ]
+              ),
             ),
 
 
