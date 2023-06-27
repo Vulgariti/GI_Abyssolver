@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "cpp.edu" "\0"
-            VALUE "FileDescription", "ugh123" "\0"
+            VALUE "FileDescription", "abyssolver" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "ugh123" "\0"
+            VALUE "InternalName", "abyssolver" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2023 cpp.edu. All rights reserved." "\0"
-            VALUE "OriginalFilename", "ugh123.exe" "\0"
-            VALUE "ProductName", "ugh123" "\0"
+            VALUE "OriginalFilename", "abyssolver.exe" "\0"
+            VALUE "ProductName", "abyssolver" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

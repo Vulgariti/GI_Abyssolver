@@ -65,41 +65,41 @@ class _DamageCalculatorState extends State<DamageCalculator> {
     double em = statMap["EM"]!;
     switch (chosenReaction){
       case ("Vape/Melt (1.5x)"):
-            double withoutReacts = multiplier*statAmount*hitcount*((statMap["DMG%"]!+condAmount)*0.01+1);
-            double reactsOnly = multiplier*statAmount*reactionCount*((statMap["DMG%"]!+condAmount)*0.01+1)
-                          *0.5*(1+(2.78*(em/(em+1400))));
-            noCrits = withoutReacts+reactsOnly;
-            reactionTotal += reactsOnly;
-            break;
+        double withoutReacts = multiplier*statAmount*hitcount*((statMap["DMG%"]!+condAmount)*0.01+1);
+        double reactsOnly = multiplier*statAmount*reactionCount*((statMap["DMG%"]!+condAmount)*0.01+1)
+            *0.5*(1+(2.78*(em/(em+1400))));
+        noCrits = withoutReacts+reactsOnly;
+        reactionTotal += reactsOnly;
+        break;
       case ("Vape/Melt (2x)"):
-            double withoutReacts = multiplier*statAmount*hitcount*((statMap["DMG%"]!+condAmount)*0.01+1);
-            double reactsOnly = multiplier*statAmount*reactionCount*((statMap["DMG%"]!+condAmount)*0.01+1)
-                          *1*(1+(2.78*(em/(em+1400))));
-            noCrits = withoutReacts+reactsOnly;
-            reactionTotal += reactsOnly;
-            break;
+        double withoutReacts = multiplier*statAmount*hitcount*((statMap["DMG%"]!+condAmount)*0.01+1);
+        double reactsOnly = multiplier*statAmount*reactionCount*((statMap["DMG%"]!+condAmount)*0.01+1)
+            *1*(1+(2.78*(em/(em+1400))));
+        noCrits = withoutReacts+reactsOnly;
+        reactionTotal += reactsOnly;
+        break;
       case ("Aggravate"):
-            noCrits = multiplier*statAmount*hitcount;
-            double reactsOnly = 1.15*lvlMulti[statMap["Level"]!.toInt()-1]*(1+(5*em)/(1200+em))*reactionCount;
-            noCrits = (noCrits+reactsOnly)*((statMap["DMG%"]!+condAmount)*0.01+1);
-            reactionTotal += reactsOnly*((statMap["DMG%"]!+condAmount)*0.01+1);
-            break;
+        noCrits = multiplier*statAmount*hitcount;
+        double reactsOnly = 1.15*lvlMulti[statMap["Level"]!.toInt()-1]*(1+(5*em)/(1200+em))*reactionCount;
+        noCrits = (noCrits+reactsOnly)*((statMap["DMG%"]!+condAmount)*0.01+1);
+        reactionTotal += reactsOnly*((statMap["DMG%"]!+condAmount)*0.01+1);
+        break;
       case("Spread"):
-            noCrits = multiplier*statAmount*hitcount;
-            double reactsOnly = 1.25*lvlMulti[statMap["Level"]!.toInt()-1]*(1+(5*em)/(1200+em))*reactionCount;
-            noCrits = (noCrits+reactsOnly)*((statMap["DMG%"]!+condAmount)*0.01+1);
-            reactionTotal += reactsOnly*((statMap["DMG%"]!+condAmount)*0.01+1);
-            break;
+        noCrits = multiplier*statAmount*hitcount;
+        double reactsOnly = 1.25*lvlMulti[statMap["Level"]!.toInt()-1]*(1+(5*em)/(1200+em))*reactionCount;
+        noCrits = (noCrits+reactsOnly)*((statMap["DMG%"]!+condAmount)*0.01+1);
+        reactionTotal += reactsOnly*((statMap["DMG%"]!+condAmount)*0.01+1);
+        break;
       default:
-            break;
+        break;
     }
 
     double resMulti = 1;
     if (0 <= statMap["RES% (Enemy)"]! && statMap["RES% (Enemy)"]!<75) {
-        resMulti = 1-statMap["RES% (Enemy)"]!*0.01;
+      resMulti = 1-statMap["RES% (Enemy)"]!*0.01;
     }
     else if (statMap["RES% (Enemy)"]! < 0) {
-        resMulti = 1-(statMap["RES% (Enemy)"]!/2)*0.01;
+      resMulti = 1-(statMap["RES% (Enemy)"]!/2)*0.01;
     }
     else {
       resMulti = 1/(4*statMap["RES% (Enemy)"]!*0.01+1);
@@ -129,12 +129,12 @@ class _DamageCalculatorState extends State<DamageCalculator> {
     String result = "";
     if (rowCount < 0)
     {
-        return "";
+      return "";
     }
 
     for (int i=0; i<=rowCount; i++)
     {
-        result += "Row ${i+1} | ${calculateRow(i)}\n";
+      result += "Row ${i+1} | ${calculateRow(i)}\n";
     }
 
     result += "\nTOTALS |     NO CRITS: ${noCritsTotal.toStringAsFixed(1)}"
@@ -175,19 +175,19 @@ class _DamageCalculatorState extends State<DamageCalculator> {
 
           //This is for the Multiplier% text field
           SizedBox(
-            width: 60.w,
-            child: TextField(
-                style: TextStyle(fontSize: 12.h, height: 1.h),
-                decoration: InputDecoration(
-                  isDense: true,
-                  contentPadding: EdgeInsets.only(bottom: 1.0.h),
-                  border: UnderlineInputBorder(),
-                  labelText: "Multiplier%",
-                ) ,
-                onChanged: (value) {
-                  multList[rowNum] = double.parse(value);
-                }
-            )
+              width: 60.w,
+              child: TextField(
+                  style: TextStyle(fontSize: 12.h, height: 1.h),
+                  decoration: InputDecoration(
+                    isDense: true,
+                    contentPadding: EdgeInsets.only(bottom: 1.0.h),
+                    border: UnderlineInputBorder(),
+                    labelText: "Multiplier%",
+                  ) ,
+                  onChanged: (value) {
+                    multList[rowNum] = double.parse(value);
+                  }
+              )
           ),
 
           SizedBox(width:5.w), //This is just for spacing
@@ -232,8 +232,8 @@ class _DamageCalculatorState extends State<DamageCalculator> {
 
           //This is for the dropdown menu for stat types (default "ATK")
           SizedBox(
-                width:50.w,
-                child: ButtonTheme(
+            width:50.w,
+            child: ButtonTheme(
                 alignedDropdown: false,
                 child: DropdownButton<String>(
                   isExpanded: true,
@@ -249,13 +249,13 @@ class _DamageCalculatorState extends State<DamageCalculator> {
                       chosenStatList[rowNum] = value!;
                     });
                   },
-                items: statTypesList.map<DropdownMenuItem<String>>((String value){
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                 }).toList(),
-              )
+                  items: statTypesList.map<DropdownMenuItem<String>>((String value){
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                )
             ),
           ),
 
@@ -323,22 +323,21 @@ class _DamageCalculatorState extends State<DamageCalculator> {
 
   Container statField(String statType, Color? backColor){
     return Container(
-      color: backColor,
-      child: TextField(
-        //Appearance stuff
-        style: TextStyle(fontSize: 12.h, height: 1.h),
-        decoration: InputDecoration(
-          isDense: true,
-          contentPadding: const EdgeInsets.only(bottom: 1.0),
-          border: const UnderlineInputBorder(),
-          labelText: statType,
-        ) ,
-        //Input stuff
-        onChanged: (value) {
-          statMap[statType] = double.parse(value);
-        }
-
-      )
+        color: backColor,
+        child: TextField(
+          //Appearance stuff
+            style: TextStyle(fontSize: 12.h, height: 1.h),
+            decoration: InputDecoration(
+              isDense: true,
+              contentPadding: const EdgeInsets.only(bottom: 1.0),
+              border: const UnderlineInputBorder(),
+              labelText: statType,
+            ) ,
+            //Input stuff
+            onChanged: (value) {
+              statMap[statType] = double.parse(value);
+            }
+        )
     );
   }
 
@@ -360,157 +359,157 @@ class _DamageCalculatorState extends State<DamageCalculator> {
 
             //Multiplier Input section
             Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height/3,
-              decoration: menuBox(),
-              alignment: Alignment.topLeft,
-              child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.max,
-                    children: <Widget>[
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height/3,
+                decoration: menuBox(),
+                alignment: Alignment.topLeft,
+                child: SingleChildScrollView(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.max,
+                        children: <Widget>[
 
-                      //Section title
-                      Container(
-                        height: 30.h,
-                        margin: EdgeInsets.only(left: 10.w, top: 10.h, bottom: 1.h),
-                        child: Text("Multiplier Input", style: TextStyle(fontSize: 20.h),),
-                      ),
+                          //Section title
+                          Container(
+                            height: 30.h,
+                            margin: EdgeInsets.only(left: 10.w, top: 10.h, bottom: 1.h),
+                            child: Text("Multiplier Input", style: TextStyle(fontSize: 20.h),),
+                          ),
 
-                      //Dropdown box, "Reaction"
-                      Container(
-                        height: 30.h,
-                        margin: EdgeInsets.only(left: 20.w),
-                        child: ButtonTheme(
-                          alignedDropdown: false,
-                          child: DropdownButton<String>(
-                            isExpanded: false,
-                            value: chosenReaction,
-                            icon: Icon(Icons.arrow_downward, size: 20.h),
-                            style: TextStyle(color: Colors.grey[700], fontSize: 12.h),
-                            underline: Container(
-                              height: 1,
-                              color: Colors.grey[600],
-                            ),
-                            onChanged: (String? value){
-                              setState((){
-                                chosenReaction = value!;
-                              });
-                            },
-                            items: reactionList.map<DropdownMenuItem<String>>((String value){
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                          )
-                        )
-                      ),
+                          //Dropdown box, "Reaction"
+                          Container(
+                              height: 30.h,
+                              margin: EdgeInsets.only(left: 20.w),
+                              child: ButtonTheme(
+                                  alignedDropdown: false,
+                                  child: DropdownButton<String>(
+                                    isExpanded: false,
+                                    value: chosenReaction,
+                                    icon: Icon(Icons.arrow_downward, size: 20.h),
+                                    style: TextStyle(color: Colors.grey[700], fontSize: 12.h),
+                                    underline: Container(
+                                      height: 1,
+                                      color: Colors.grey[600],
+                                    ),
+                                    onChanged: (String? value){
+                                      setState((){
+                                        chosenReaction = value!;
+                                      });
+                                    },
+                                    items: reactionList.map<DropdownMenuItem<String>>((String value){
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(value),
+                                      );
+                                    }).toList(),
+                                  )
+                              )
+                          ),
 
-                      //Text
-                      Container(
-                        //height: 30.h,
-                        margin: EdgeInsets.only(left: 10.w, bottom: 1.h),
-                        child: Text("*\"Reactions\" is the number of hits that cause a reaction. This should always be set "
-                            "smaller than \"Hits\".",
-                          style: TextStyle(fontSize: 12.h),),
-                      ),
+                          //Text
+                          Container(
+                            //height: 30.h,
+                            margin: EdgeInsets.only(left: 10.w, bottom: 1.h),
+                            child: Text("*\"Reactions\" is the number of hits that cause a reaction. This should usually be set "
+                                "smaller than \"Hits\".",
+                              style: TextStyle(fontSize: 12.h),),
+                          ),
 
-                      //Rows for multiplier input
-                      Column(
-                        children: rows,
-                      ),
+                          //Rows for multiplier input
+                          Column(
+                            children: rows,
+                          ),
 
-                      //+ Button
-                      Container(
-                        //color: Colors.red,
-                        margin: EdgeInsets.only(left:MediaQuery.of(context).size.width*0.70),
-                        child: RawMaterialButton(
-                          onPressed: () {
-                            setState((){
-                            rowCount += 1;
-                            rows.add(giveRow(rowCount));
-                          });
-                        },
-                          elevation: 2.0,
-                          fillColor: Colors.white,
-                          padding: EdgeInsets.all(5.0.h),
-                          shape: const CircleBorder(),
-                          child: Text("+", style: TextStyle(fontSize: 24.h)),
-                        )
-                      ),
+                          //+ Button
+                          Container(
+                            //color: Colors.red,
+                              margin: EdgeInsets.only(left:MediaQuery.of(context).size.width*0.70),
+                              child: RawMaterialButton(
+                                onPressed: () {
+                                  setState((){
+                                    rowCount += 1;
+                                    rows.add(giveRow(rowCount));
+                                  });
+                                },
+                                elevation: 2.0,
+                                fillColor: Colors.white,
+                                padding: EdgeInsets.all(5.0.h),
+                                shape: const CircleBorder(),
+                                child: Text("+", style: TextStyle(fontSize: 24.h)),
+                              )
+                          ),
 
-                    ]
-                  )
-              )
+                        ]
+                    )
+                )
             ),
 
 
             //Stats Input section
             Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height/3,
-              decoration: menuBox(),
-              alignment: Alignment.topLeft,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-
-                  //Section Title
-                  Container(
-                    margin: EdgeInsets.only(left: 10.w, top: 10.h, bottom: 5.h),
-                    child: Text("Stats Input", style: TextStyle(fontSize: 20.h),),
-                  ),
-                  //Labels, "Conditional Stats" & "Constant Stats"
-                  Row(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height/3,
+                decoration: menuBox(),
+                alignment: Alignment.topLeft,
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
+
+                      //Section Title
                       Container(
-                        width: MediaQuery.of(context).size.width*0.475,
-                        margin: EdgeInsets.only(left: 10.w),
-                        child: Text("Conditional DMG%", style: TextStyle(fontSize: 14.h),),
+                        margin: EdgeInsets.only(left: 10.w, top: 10.h, bottom: 5.h),
+                        child: Text("Stats Input", style: TextStyle(fontSize: 20.h),),
                       ),
-                      Text("Constant Stats", style: TextStyle(fontSize: 14.h),
+                      //Labels, "Conditional Stats" & "Constant Stats"
+                      Row(
+                          children: <Widget>[
+                            Container(
+                              width: MediaQuery.of(context).size.width*0.475,
+                              margin: EdgeInsets.only(left: 10.w),
+                              child: Text("Conditional DMG%", style: TextStyle(fontSize: 14.h),),
+                            ),
+                            Text("Constant Stats", style: TextStyle(fontSize: 14.h),
+                            ),
+                          ]
                       ),
+                      //Grid containing input fields for stats
+                      Expanded(
+                          child: GridView.count(
+                              childAspectRatio: 1.75.w/1.h,
+                              padding: EdgeInsets.only(left:15.w,right:15.w,top:5.h),
+                              crossAxisSpacing: 10.w,
+                              mainAxisSpacing: 12.h,
+                              crossAxisCount: 6,
+                              children: <Widget>[
+                                //Row 1
+                                statField("DMG% A", Colors.red[300]),
+                                statField("DMG% B", Colors.lightBlue[300]),
+                                Container(),
+                                statField("HP", Colors.transparent),
+                                statField("ATK", Colors.transparent),
+                                statField("DEF", Colors.transparent),
+                                //Row 2
+                                statField("DMG% C", Colors.green[500]),
+                                statField("DMG% D", Colors.deepPurple[300]),
+                                Container(),
+                                statField("EM", Colors.transparent),
+                                statField("CR%", Colors.transparent),
+                                statField("CD%", Colors.transparent),
+                                //Row 3
+                                Container(),
+                                Container(),
+                                Container(),
+                                statField("DMG%", Colors.transparent),
+                                statField("Level", Colors.transparent),
+                                statField("RES% (Enemy)", Colors.transparent),
+                                //Row 4
+                                Container(),
+                                Container(),
+                              ]
+                          )
+                      )
                     ]
-                  ),
-                  //Grid containing input fields for stats
-                  Expanded(
-                    child: GridView.count(
-                      childAspectRatio: 1.75.w/1.h,
-                      padding: EdgeInsets.only(left:15.w,right:15.w,top:5.h),
-                      crossAxisSpacing: 10.w,
-                      mainAxisSpacing: 12.h,
-                      crossAxisCount: 6,
-                      children: <Widget>[
-                        //Row 1
-                        statField("DMG% A", Colors.red[300]),
-                        statField("DMG% B", Colors.lightBlue[300]),
-                        Container(),
-                        statField("HP", Colors.transparent),
-                        statField("ATK", Colors.transparent),
-                        statField("DEF", Colors.transparent),
-                        //Row 2
-                        statField("DMG% C", Colors.green[500]),
-                        statField("DMG% D", Colors.deepPurple[300]),
-                        Container(),
-                        statField("EM", Colors.transparent),
-                        statField("CR%", Colors.transparent),
-                        statField("CD%", Colors.transparent),
-                        //Row 3
-                        Container(),
-                        Container(),
-                        Container(),
-                        statField("DMG%", Colors.transparent),
-                        statField("Level", Colors.transparent),
-                        statField("RES% (Enemy)", Colors.transparent),
-                        //Row 4
-                        Container(),
-                        Container(),
-                      ]
-                    )
-                  )
-                ]
-              )
+                )
             ),
 
 
@@ -520,41 +519,41 @@ class _DamageCalculatorState extends State<DamageCalculator> {
               alignment: Alignment.topLeft,
               decoration: menuBox(),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
 
-                  Container(
-                    margin: EdgeInsets.only(left: 10.w, top: 10.h, bottom: 5.h),
-                    child: Text("Output", style: TextStyle(fontSize: 20.h),),
-                  ),
+                    Container(
+                      margin: EdgeInsets.only(left: 10.w, top: 10.h, bottom: 5.h),
+                      child: Text("Output", style: TextStyle(fontSize: 20.h),),
+                    ),
 
-                  Text("*Enemy defense is not included (yet).\n"
-                      "*\"NaN\" output means there is invalid input.",
-                      style: TextStyle(fontSize: 12.h)),
+                    Text("*Enemy defense is not included (yet).\n"
+                        "*\"NaN\" output means there is invalid input.",
+                        style: TextStyle(fontSize: 12.h)),
 
-                  Container(
-                    color: Colors.grey[400],
-                    child: Text(output, style: TextStyle(fontSize: 12.h)),
-                  ),
+                    Container(
+                      color: Colors.grey[400],
+                      child: Text(output, style: TextStyle(fontSize: 12.h)),
+                    ),
 
-                  Container(
-                    //color: Colors.red,
-                      margin: EdgeInsets.only(left:MediaQuery.of(context).size.width*0.70),
-                      child: RawMaterialButton(
-                        onPressed: () {
-                          print("wow");
-                          setState((){
-                            output = getOutput();
-                          });
-                        },
-                        elevation: 2.0,
-                        fillColor: Colors.white,
-                        padding: EdgeInsets.all(10.0.h),
-                        shape: const CircleBorder(),
-                        child: Text("Go", style: TextStyle(fontSize: 14.h)),
-                      )
-                  ),
-                ]
+                    Container(
+                      //color: Colors.red,
+                        margin: EdgeInsets.only(left:MediaQuery.of(context).size.width*0.70),
+                        child: RawMaterialButton(
+                          onPressed: () {
+                            print("wow");
+                            setState((){
+                              output = getOutput();
+                            });
+                          },
+                          elevation: 2.0,
+                          fillColor: Colors.white,
+                          padding: EdgeInsets.all(10.0.h),
+                          shape: const CircleBorder(),
+                          child: Text("Go", style: TextStyle(fontSize: 14.h)),
+                        )
+                    ),
+                  ]
               ),
             ),
 

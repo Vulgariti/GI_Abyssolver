@@ -5,10 +5,10 @@
 // 'flutter create' template.
 
 // The application's name. By default this is also the title of the Flutter window.
-PRODUCT_NAME = ugh123
+PRODUCT_NAME = abyssolver
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = cpp.edu.ugh123
+PRODUCT_BUNDLE_IDENTIFIER = cpp.edu.abyssolver
 
 // The copyright displayed in application information
 PRODUCT_COPYRIGHT = Copyright © 2023 cpp.edu. All rights reserved.

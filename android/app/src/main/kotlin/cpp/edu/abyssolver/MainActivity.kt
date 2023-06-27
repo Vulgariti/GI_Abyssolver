@@ -1,4 +1,4 @@
-package cpp.edu.ugh123
+package cpp.edu.abyssolver
 
 import io.flutter.embedding.android.FlutterActivity
 
