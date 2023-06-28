@@ -63,7 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
 
             //Title box
-            Container(
+            SizedBox(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height*0.25,
               child: const Image(
@@ -115,7 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: InkWell( onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const DamageCalculator(title: "testing")),
+                  MaterialPageRoute(builder: (context) => const TeamBuilder(title: "testing")),
                 );
               },
                   splashColor: Colors.blueGrey[400],

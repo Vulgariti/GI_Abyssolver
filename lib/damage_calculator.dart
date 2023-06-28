@@ -181,7 +181,7 @@ class _DamageCalculatorState extends State<DamageCalculator> {
                   decoration: InputDecoration(
                     isDense: true,
                     contentPadding: EdgeInsets.only(bottom: 1.0.h),
-                    border: UnderlineInputBorder(),
+                    border: const UnderlineInputBorder(),
                     labelText: "Multiplier%",
                   ) ,
                   onChanged: (value) {
@@ -200,7 +200,7 @@ class _DamageCalculatorState extends State<DamageCalculator> {
                   decoration: InputDecoration(
                     isDense: true,
                     contentPadding: EdgeInsets.only(bottom: 1.0.h),
-                    border: UnderlineInputBorder(),
+                    border: const UnderlineInputBorder(),
                     labelText: "Hits",
                   ) ,
                   onChanged: (value) {
@@ -219,7 +219,7 @@ class _DamageCalculatorState extends State<DamageCalculator> {
                   decoration: InputDecoration(
                     isDense: true,
                     contentPadding: EdgeInsets.only(bottom: 1.0.h),
-                    border: UnderlineInputBorder(),
+                    border: const UnderlineInputBorder(),
                     labelText: "Reactions",
                   ) ,
                   onChanged: (value) {
