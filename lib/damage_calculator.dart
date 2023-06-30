@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DamageCalculator extends StatefulWidget {
-  const DamageCalculator({super.key, required this.title});
-  final String title;
+  const DamageCalculator({super.key});
 
   @override
   State<DamageCalculator> createState() => _DamageCalculatorState();
@@ -115,9 +114,6 @@ class _DamageCalculatorState extends State<DamageCalculator> {
     String result = "     NO CRITS: ${noCrits.toStringAsFixed(1)}"
         "     ALL CRITS: ${allCrits.toStringAsFixed(1)}"
         "     AVERAGE: ${average.toStringAsFixed(1)}";
-
-    print(result);
-    print("condAmt: " + condAmount.toString());
 
     return result;
   }
@@ -513,6 +509,7 @@ class _DamageCalculatorState extends State<DamageCalculator> {
             ),
 
 
+            //Output section
             Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
@@ -541,7 +538,6 @@ class _DamageCalculatorState extends State<DamageCalculator> {
                         margin: EdgeInsets.only(left:MediaQuery.of(context).size.width*0.70),
                         child: RawMaterialButton(
                           onPressed: () {
-                            print("wow");
                             setState((){
                               output = getOutput();
                             });

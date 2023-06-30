@@ -1,4 +1,5 @@
 import 'package:abyssolver/damage_calculator.dart';
+import 'package:abyssolver/income_calculator.dart';
 import 'package:abyssolver/team_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -77,7 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: InkWell( onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const DamageCalculator(title: "testing")),
+                  MaterialPageRoute(builder: (context) => const DamageCalculator()),
                 );
               },
                   splashColor: Colors.blueGrey[400],
@@ -85,7 +86,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height*0.75/4,
                     decoration: menuBox(),
-                    child: Text("wowcool", style: TextStyle(fontSize: 24.sp),),
+                    alignment: Alignment.center,
+                    child: Text("Combat Calculator", style: TextStyle(fontSize: 24.sp),),
                   )
               ),
             ),
@@ -96,7 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: InkWell( onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const TeamBuilder(title: "testing")),
+                  MaterialPageRoute(builder: (context) => const TeamBuilder()),
                 );
               },
                   splashColor: Colors.blueGrey[400],
@@ -104,6 +106,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height*0.75/4,
                     decoration: menuBox(),
+                    alignment: Alignment.center,
+                    child: Text("Team & Rotation Builder", style: TextStyle(fontSize: 24.sp),),
                   )
               ),
             ),
@@ -115,7 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: InkWell( onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const TeamBuilder(title: "testing")),
+                  MaterialPageRoute(builder: (context) => const IncomeCalculator()),
                 );
               },
                   splashColor: Colors.blueGrey[400],
@@ -123,6 +127,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height*0.75/4,
                     decoration: menuBox(),
+                    alignment: Alignment.center,
+                    child: Text("Income Calculator", style: TextStyle(fontSize: 24.sp),),
                   )
               ),
             ),
@@ -133,7 +139,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: InkWell( onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const DamageCalculator(title: "testing")),
+                  MaterialPageRoute(builder: (context) => const IncomeCalculator()),
                 );
               },
                   splashColor: Colors.blueGrey[400],
@@ -141,6 +147,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height*0.75/4,
                     decoration: menuBox(),
+                    alignment: Alignment.center,
+                    child: Text("Resources", style: TextStyle(fontSize: 24.sp),),
                   )
               ),
             ),

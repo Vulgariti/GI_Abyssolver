@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TeamBuilder extends StatefulWidget {
-  const TeamBuilder({super.key, required this.title});
-  final String title;
+  const TeamBuilder({super.key});
 
   @override
   State<TeamBuilder> createState() => _TeamBuilderState();
@@ -26,11 +25,44 @@ class _TeamBuilderState extends State<TeamBuilder> {
 
   final List<String> _results = [];
 
-  List<String> chosenCharacters = ['Empty', 'Empty', 'Empty', 'Empty'];
+  List<String> teamCharacters = ['Empty', 'Empty', 'Empty', 'Empty'];
   int currentSlot = 0;
 
+  /*
+  List<String> rotCharacters = [];
+
+  Container rotRow()
+  {
+    rotCharacters.add()
+
+    return Container(
+
+      child: Row(
+        children: <Widget>[
+          //Character icon
+          InkWell( onTap: () {
+            setState(() {
+
+            });
+            print(teamCharacters[currentSlot]);
+          },
+            child: CircleAvatar(
+              backgroundImage: AssetImage('assets/images/${rotCharacters[slotNum]}.png'),
+              backgroundColor: selectColor(slotNum),
+              radius: slotRadius,
+            ),
+          ),
+
+
+        ]
+
+      )
+    )
+
+  }*/
+
   Container teamSlot(int slotNum){
-    double slotRadius = 30.w;
+    double slotRadius = 30.h;
     if (slotRadius > 65)
     {
       slotRadius = 65;
@@ -45,10 +77,10 @@ class _TeamBuilderState extends State<TeamBuilder> {
               setState(() {
                 currentSlot = slotNum;
                 });
-              print(chosenCharacters[currentSlot]);
+              print(teamCharacters[currentSlot]);
               },
               child: CircleAvatar(
-                backgroundImage: AssetImage('assets/images/${chosenCharacters[slotNum]}.png'),
+                backgroundImage: AssetImage('assets/images/${teamCharacters[slotNum]}.png'),
                 backgroundColor: selectColor(slotNum),
                 radius: slotRadius,
                 ),
@@ -59,7 +91,7 @@ class _TeamBuilderState extends State<TeamBuilder> {
                 onPressed: () {
                   setState((){
                     currentSlot = slotNum;
-                    chosenCharacters[currentSlot] = 'Empty';
+                    teamCharacters[currentSlot] = 'Empty';
                   });
                 },
                 elevation: 2.0,
@@ -152,9 +184,9 @@ class _TeamBuilderState extends State<TeamBuilder> {
                           return ListTile(
                             title: InkWell( onTap: () {
                               setState(() {
-                                chosenCharacters[currentSlot] = characterSearch[index];
+                                teamCharacters[currentSlot] = characterSearch[index];
                               });
-                              print(chosenCharacters[currentSlot]);
+                              print(teamCharacters[currentSlot]);
                             },
                               child: CircleAvatar(
                                   backgroundImage: AssetImage('assets/images/${characterSearch[index]}.png'),
@@ -174,9 +206,9 @@ class _TeamBuilderState extends State<TeamBuilder> {
                           return ListTile(
                             title: InkWell( onTap: () {
                               setState(() {
-                                chosenCharacters[currentSlot] = _results[index];
+                                teamCharacters[currentSlot] = _results[index];
                               });
-                              print(chosenCharacters[currentSlot]);
+                              print(teamCharacters[currentSlot]);
                             },
                               child: CircleAvatar(
                                   backgroundImage: AssetImage('assets/images/${_results[index]}.png'),
@@ -230,6 +262,7 @@ class _TeamBuilderState extends State<TeamBuilder> {
             ),
 
 
+            //Rotation builder section
             Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height/2,
@@ -239,6 +272,7 @@ class _TeamBuilderState extends State<TeamBuilder> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.max,
                     children: <Widget>[
+
                       //Section title
                       Container(
                         height: 30.h,
