@@ -19,6 +19,8 @@ class _DamageCalculatorState extends State<DamageCalculator> {
   Map<String, double> statMap = {
     "HP":0,"ATK":0,"DEF":0,"EM":0,"CR%":0, "CD%":0,"DMG%":0,"LVL":0,"RES% (Enemy)":0,
     "DMG% A":0,"DMG% B":0,"DMG% C":0,"DMG% D":0,"N/A":0,
+    // Energy section
+    "ER%":100,"C.M.":0,"C.O.":0,"C.W.":0,"N.M.":0,"N.O.":0,"N.W.":0,
   };
 
   String chosenReaction = "Vape/Melt (1.5x)";
@@ -43,6 +45,18 @@ class _DamageCalculatorState extends State<DamageCalculator> {
     281.53,295.01,309.07,323.60,336.76,350.53,364.48,378.62,398.60,416.40,434.39,452.95,472.61,492.88,513.57,
     539.10,565.51,592.54,624.44,651.47,679.50,707.79,736.67,765.64,794.77,824.68,851.16,877.74,914.23,946.75,
     979.41,1011.22,1044.79,1077.44,1110.00,1142.98,1176.37,1210.18,1253.84,1288.95,1325.48,1363.46,1405.10,1446.85];
+
+  String energyOutput = "";
+
+  String getEnergy() {
+    double energySum;
+    energySum = statMap["C.M."]!*3 + statMap["C.O."]! + statMap["C.W."]!*2;
+    energySum += statMap["N.M."]!*1.8 + statMap["N.O."]!*0.6 + statMap["N.W."]!*1.2;
+    energySum *= statMap["ER%"]!*0.01;
+
+    return energySum.toStringAsFixed(1);
+  }
+
 
   //Calculates all output for a given row, rowNum, in "Multiplier Input"
   String calculateRow(int rowNum){
@@ -341,6 +355,7 @@ class _DamageCalculatorState extends State<DamageCalculator> {
   Widget build(BuildContext context) {
 
     List<Widget> rows = List.generate(rowCount+1, (int i) => giveRow(i));
+    energyOutput = getEnergy();
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -512,7 +527,7 @@ class _DamageCalculatorState extends State<DamageCalculator> {
             //Output section
             Container(
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
+              height: MediaQuery.of(context).size.height*0.75,
               alignment: Alignment.topLeft,
               decoration: menuBox(),
               child: Column(
@@ -528,11 +543,13 @@ class _DamageCalculatorState extends State<DamageCalculator> {
                         "*\"NaN\" output means there is invalid input.",
                         style: TextStyle(fontSize: 12.h)),
 
+                    //Output
                     Container(
                       color: Colors.grey[400],
                       child: Text(output, style: TextStyle(fontSize: 12.h)),
                     ),
 
+                    //Go button
                     Container(
                       //color: Colors.red,
                         margin: EdgeInsets.only(left:MediaQuery.of(context).size.width*0.70),
@@ -551,6 +568,93 @@ class _DamageCalculatorState extends State<DamageCalculator> {
                     ),
                   ]
               ),
+            ),
+
+
+            //Energy section
+            Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height*0.5,
+                decoration: menuBox(),
+                alignment: Alignment.topLeft,
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+
+                      //Section Title
+                      Container(
+                        margin: EdgeInsets.only(left: 10.w, top: 10.h, bottom: 5.h),
+                        child: Text("Energy Particle Calculator", style: TextStyle(fontSize: 20.h),),
+                      ),
+
+                      Text("*Input the corresponding numbers of particles for each category."
+                          "\n   \"Match\" is for particles of the same element as the character."
+                          "\n   \"Other\" is for particles of a different element as the character."
+                          "\n   \"White\" is for white particles such as from Favonius weapons."
+                          "\n   \"Caught\" is for when particles are obtained while the character is on-field."
+                          "\n   ER% should be 100% or higher.",
+                          style: TextStyle(fontSize: 12.h)),
+
+                      //Grid containing input fields for stats
+                      Container(
+                        height: 120.h,
+                        child: Expanded(
+                            child: GridView.count(
+                                childAspectRatio: 1.75.w/1.h,
+                                padding: EdgeInsets.only(left:15.w,right:15.w,top:5.h, bottom: 5.h),
+                                crossAxisSpacing: 10.w,
+                                mainAxisSpacing: 12.h,
+                                crossAxisCount: 6,
+                                children: <Widget>[
+                                  //Row 1
+                                  statField("ER%", Colors.blueGrey[200]),
+                                  Text("Match", style: TextStyle(fontSize: 14.h)),
+                                  Text("Other", style: TextStyle(fontSize: 14.h)),
+                                  Text("White", style: TextStyle(fontSize: 14.h)),
+                                  Container(),
+                                  Container(),
+                                  //Row 2
+                                  Text("Caught", style: TextStyle(fontSize: 12.h)),
+                                  statField("C.M.", Colors.blueGrey[200]),
+                                  statField("C.O.", Colors.blueGrey[200]),
+                                  statField("C.W.", Colors.blueGrey[200]),
+                                  Container(),
+                                  Container(),
+                                  //Row 3
+                                  Text("Not Caught", style: TextStyle(fontSize: 12.h)),
+                                  statField("N.M.", Colors.blueGrey[200]),
+                                  statField("N.O.", Colors.blueGrey[200]),
+                                  statField("N.W.", Colors.blueGrey[200]),
+                                ]
+                            )
+                        ),
+                      ),
+
+                      //Go button
+                      Container(
+                        margin: EdgeInsets.only(left:MediaQuery.of(context).size.width*0.60),
+                        child: RawMaterialButton(
+                          onPressed: () {
+                            setState((){
+                              energyOutput = getEnergy();
+                            });
+                          },
+                          elevation: 2.0,
+                          fillColor: Colors.white,
+                          padding: EdgeInsets.all(10.0.h),
+                          shape: const CircleBorder(),
+                          child: Text("Go", style: TextStyle(fontSize: 14.h)),
+                        )
+                      ),
+
+                      Container(
+                          margin: EdgeInsets.only(left:MediaQuery.of(context).size.width*0.2),
+                          alignment: Alignment.topLeft,
+                          child: Text("Energy Total:  $energyOutput", style: TextStyle(fontSize: 14.h))
+                      ),
+
+                    ]
+                )
             ),
 
 

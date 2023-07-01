@@ -69,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height*0.25,
               child: const Image(
-                  image: NetworkImage('https://logowik.com/content/uploads/images/genshin-impact4958.jpg')
+                  image: AssetImage('assets/images/Abyssolver_logo.png'),
               ),
             ),
 
