@@ -1,5 +1,6 @@
 import 'package:abyssolver/damage_calculator.dart';
 import 'package:abyssolver/income_calculator.dart';
+import 'package:abyssolver/resources_page.dart';
 import 'package:abyssolver/team_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -139,7 +140,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: InkWell( onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const IncomeCalculator()),
+                  MaterialPageRoute(builder: (context) => const ResourcesPage()),
                 );
               },
                   splashColor: Colors.blueGrey[400],
