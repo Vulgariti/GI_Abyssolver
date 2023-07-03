@@ -77,7 +77,6 @@ class _TeamBuilderState extends State<TeamBuilder> {
               setState(() {
                 currentSlot = slotNum;
                 });
-              print(teamCharacters[currentSlot]);
               },
               child: CircleAvatar(
                 backgroundImage: AssetImage('assets/images/${teamCharacters[slotNum]}.png'),
@@ -186,7 +185,6 @@ class _TeamBuilderState extends State<TeamBuilder> {
                               setState(() {
                                 teamCharacters[currentSlot] = characterSearch[index];
                               });
-                              print(teamCharacters[currentSlot]);
                             },
                               child: CircleAvatar(
                                   backgroundImage: AssetImage('assets/images/${characterSearch[index]}.png'),
@@ -208,7 +206,6 @@ class _TeamBuilderState extends State<TeamBuilder> {
                               setState(() {
                                 teamCharacters[currentSlot] = _results[index];
                               });
-                              print(teamCharacters[currentSlot]);
                             },
                               child: CircleAvatar(
                                   backgroundImage: AssetImage('assets/images/${_results[index]}.png'),
@@ -273,13 +270,13 @@ class _TeamBuilderState extends State<TeamBuilder> {
                     mainAxisSize: MainAxisSize.max,
                     children: <Widget>[
 
-                      //Section title
+                      /*/Section title
                       Container(
                         height: 30.h,
                         margin: EdgeInsets.only(left: 10.w, top: 10.h, bottom: 1.h),
                         child: Text("Rotation Builder", style: TextStyle(fontSize: 20.h),),
                       ),
-
+                      */
 
                     ]
                 )
