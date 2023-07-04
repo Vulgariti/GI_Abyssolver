@@ -1,6 +1,6 @@
 # Abyssolver
 
-This is an app that includes calculators intended for theorycrafting for the game Genshin Impact. The goal of the app is to provide tools that are flexible rather than specific. 
+This is an app that includes calculators intended for theorycrafting for the game Genshin Impact. The goal of the app is to provide tools that are flexible rather than rigid. 
 
 Currently, there are five screens: the main screen, a combat calculator, a team-builder tool, an income calculator, and a resources page.
 
